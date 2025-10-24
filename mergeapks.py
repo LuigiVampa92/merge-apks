@@ -20,7 +20,10 @@ const_file_result_file = "result"
 const_ext_apk = ".apk"
 const_apk_file_apktool_config = 'apktool.yml'
 const_sign_config_properties_file = 'mergeapks.sign.properties'
-
+if os.name == 'nt':  # 'nt' is the name for Windows
+    const_apktool_executable = 'apktool.bat'
+else:
+    const_apktool_executable = 'apktool'
 
 def print_help():
     print("")
@@ -207,7 +210,7 @@ def merge_apk_contents(dir_apk_main, dir_apk_secondary):
 def unpack_apk(path_dir_tmp, apk_file, number_current, number_total):
     print('[*] unpacking %d of %d' % (number_current, number_total))
     os.chdir(path_dir_tmp)
-    rc = execute_command_subprocess(['apktool', 'd', '-s', apk_file])
+    rc = execute_command_subprocess([const_apktool_executable, 'd', '-s', apk_file])
     if rc != 0:
         raise Exception("failed to unpack %s" % apk_file)
     os.remove(os.path.join(path_dir_tmp, apk_file))
@@ -216,7 +219,7 @@ def unpack_apk(path_dir_tmp, apk_file, number_current, number_total):
 def pack_apk(path_dir_tmp, main_apk_dir):
     print('[*] repack apk')
     os.chdir(path_dir_tmp)
-    rc = execute_command_subprocess(['apktool', 'b', main_apk_dir])
+    rc = execute_command_subprocess([const_apktool_executable, 'b', main_apk_dir])
     if rc != 0:
         raise Exception("failed to pack apk")
 
