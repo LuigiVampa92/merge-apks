@@ -58,7 +58,7 @@ def execute_command_os_system(command):
 
 
 def execute_command_subprocess(command_tokens_list):
-    rc = call(command_tokens_list, stdout=DEVNULL, stderr=STDOUT)
+    rc = call(command_tokens_list, stdout=DEVNULL, stderr=STDOUT, shell=True)
     return rc
 
 
